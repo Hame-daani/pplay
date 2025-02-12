@@ -25,6 +25,11 @@ jobs:
         run: |
           wget https://github.com/PacBrew/pacbrew-pacman/releases/download/pacbrew-release-1.0/pacbrew-pacman-1.0.deb
           sudo dpkg -i pacbrew-pacman-1.0.deb
+          echo """
+          [pacbrew]
+          SigLevel = Optional TrustAll
+          Server = https://pacman.mydedibox.fr/pacbrew/packages/
+          """ >> /etc/pacman.conf
           sudo pacbrew-pacman -Syu
           sudo pacbrew-pacman --noconfirm -S ps4-openorbis ps4-openorbis-portlibs
 
