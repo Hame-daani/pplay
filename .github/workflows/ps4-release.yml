@@ -37,6 +37,9 @@ jobs:
     - name: Configure
       run: |
          cd $GITHUB_WORKSPACE
+         cd pscrap
+         echo "123154" >> tmdb.key
+         cd ..
          mkdir cmake-build && cd cmake-build
          export OPENORBIS=/opt/pacbrew/ps4/openorbis
          cmake -G "Unix Makefiles" -DPLATFORM_PS4=ON -DCMAKE_BUILD_TYPE=Release ..
