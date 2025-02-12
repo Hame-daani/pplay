@@ -1,0 +1,49 @@
+name: ps4-release
+
+on:
+  push:
+    tags:
+      - "v*.*"
+  workflow_dispatch:
+
+jobs:
+
+  build-ps4-release:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+
+      - name: Install build dependencies
+        run: |
+          sudo apt -yq update
+          sudo apt -yq install git build-essential cmake zip libgpgme11
+
+      - name: Install ps4 toolchain
+        run: |
+          wget https://github.com/PacBrew/pacbrew-pacman/releases/download/pacbrew-release-1.0/pacbrew-pacman-1.0.deb
+          sudo dpkg -i pacbrew-pacman-1.0.deb
+          sudo pacbrew-pacman -Syu
+          sudo pacbrew-pacman --noconfirm -S ps4-openorbis ps4-openorbis-portlibs
+
+      - name: Configure
+        run: |
+          cd $GITHUB_WORKSPACE
+          mkdir cmake-build && cd cmake-build
+          export OPENORBIS=/opt/pacbrew/ps4/openorbis
+          cmake -G "Unix Makefiles" -DPLATFORM_PS4=ON -DCMAKE_BUILD_TYPE=Release ..
+
+      - name: Build pplay
+        run: |
+          cd $GITHUB_WORKSPACE/cmake-build
+          make pplay_pkg
+          mv *.pkg $GITHUB_WORKSPACE
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: '*.pkg'
+          token: ${{ secrets.GITHUB_TOKEN }}
