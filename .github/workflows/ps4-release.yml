@@ -29,7 +29,7 @@ jobs:
           [pacbrew]
           SigLevel = Optional TrustAll
           Server = https://pacman.mydedibox.fr/pacbrew/packages/
-          """ >> /etc/pacman.conf
+          """ >> /etc/pacbrew-pacman.conf
           sudo pacbrew-pacman -Syu
           sudo pacbrew-pacman --noconfirm -S ps4-openorbis ps4-openorbis-portlibs
 
