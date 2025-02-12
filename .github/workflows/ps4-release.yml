@@ -6,49 +6,50 @@ on:
       - "v*.*"
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-
-  build-ps4-release:
-    runs-on: ubuntu-20.04
-
+  ps4:
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: recursive
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
 
-      - name: Install build dependencies
-        run: |
-          sudo apt -yq update
-          sudo apt -yq install git build-essential cmake zip libgpgme11
+    - name: Create Build Environment
+      run: |
+        sudo apt-get update && \
+        sudo apt-get install -y pacman-package-manager wget cmake git gettext smpq && \
+        sudo tee -a /etc/pacman.conf > /dev/null <<TEXT
+        [pacbrew]
+        SigLevel = Optional TrustAll
+        Server = https://pacman.mydedibox.fr/pacbrew/packages/
+        TEXT
+    - name: Setup pacman packages
+      run: |
+        sudo pacman --noconfirm -Sy && \
+        sudo pacman --noconfirm -S ps4-openorbis ps4-openorbis-portlibs && \
+        echo "#include <endian.h>" | sudo tee /opt/pacbrew/ps4/openorbis/include/sys/endian.h
 
-      - name: Install ps4 toolchain
-        run: |
-          wget https://github.com/PacBrew/pacbrew-pacman/releases/download/pacbrew-release-1.0/pacbrew-pacman-1.0.deb
-          sudo dpkg -i pacbrew-pacman-1.0.deb
-          sudo echo """
-          [pacbrew]
-          SigLevel = Optional TrustAll
-          Server = https://pacman.mydedibox.fr/pacbrew/packages/
-          """ >> /etc/pacbrew-pacman.conf
-          sudo pacbrew-pacman -Syu
-          sudo pacbrew-pacman --noconfirm -S ps4-openorbis ps4-openorbis-portlibs
+    - name: Configure
+      run: |
+         cd $GITHUB_WORKSPACE
+         mkdir cmake-build && cd cmake-build
+         export OPENORBIS=/opt/pacbrew/ps4/openorbis
+         cmake -G "Unix Makefiles" -DPLATFORM_PS4=ON -DCMAKE_BUILD_TYPE=Release ..
 
-      - name: Configure
-        run: |
-          cd $GITHUB_WORKSPACE
-          mkdir cmake-build && cd cmake-build
-          export OPENORBIS=/opt/pacbrew/ps4/openorbis
-          cmake -G "Unix Makefiles" -DPLATFORM_PS4=ON -DCMAKE_BUILD_TYPE=Release ..
+    - name: Build pplay
+      run: |
+         cd $GITHUB_WORKSPACE/cmake-build
+         make pplay_pkg
+         mv *.pkg $GITHUB_WORKSPACE
 
-      - name: Build pplay
-        run: |
-          cd $GITHUB_WORKSPACE/cmake-build
-          make pplay_pkg
-          mv *.pkg $GITHUB_WORKSPACE
-
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          files: '*.pkg'
-          token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: '*.pkg'
+        token: ${{ secrets.GITHUB_TOKEN }}
