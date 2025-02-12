@@ -236,10 +236,10 @@ bool Player::onInput(c2d::Input::Player *players) {
 #ifdef __PS4__
     else if (keys & c2d::Input::Key::Select) {
         osd->setVisibility(c2d::Visibility::Visible);
-        getMpv()->seek(-60.0);
+        getMpv()->seek(-5.0);
     } else if (keys & c2d::Input::Key::Start) {
         osd->setVisibility(c2d::Visibility::Visible);
-        getMpv()->seek(60.0);
+        getMpv()->seek(5.0);
     }
 #endif
 
