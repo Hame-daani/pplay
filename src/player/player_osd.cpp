@@ -162,7 +162,7 @@ bool PlayerOSD::onInput(c2d::Input::Player *players) {
 
     unsigned int keys = players[0].keys;
 
-    if ((keys & Input::Key::Up) || keys & Input::Key::Fire2) {
+    if ((keys & Input::Key::Down) || keys & Input::Key::Fire2) {
         setVisibility(Visibility::Hidden, true);
         main->getStatusBar()->setVisibility(Visibility::Hidden, true);
     } else if (keys & Input::Key::Left) {

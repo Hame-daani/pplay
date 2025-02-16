@@ -250,7 +250,7 @@ bool Player::onInput(c2d::Input::Player *players) {
     //////////////////
     /// handle inputs
     //////////////////
-    if ((keys & Input::Key::Fire1) || (keys & Input::Key::Down)) {
+    if ((keys & Input::Key::Fire1) || (keys & Input::Key::Up)) {
         if (!osd->isVisible()) {
             osd->setVisibility(Visibility::Visible, true);
             main->getStatusBar()->setVisibility(Visibility::Visible, true);
