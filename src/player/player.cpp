@@ -255,9 +255,9 @@ bool Player::onInput(c2d::Input::Player *players) {
             osd->setVisibility(Visibility::Visible, true);
             main->getStatusBar()->setVisibility(Visibility::Visible, true);
         }
-    } else if (keys & c2d::Input::Key::Left || keys & Input::Key::Fire2) {
+    } else if (keys & c2d::Input::Key::Right || keys & Input::Key::Fire2) {
         setFullscreen(false);
-    } else if (keys & c2d::Input::Key::Right) {
+    } else if (keys & c2d::Input::Key::Left) {
         main->getMenuVideo()->setVisibility(Visibility::Visible, true);
     }
 
