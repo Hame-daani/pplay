@@ -29,7 +29,7 @@ project(pplay)
 
 # pplay version
 set(VERSION_MAJOR "3")
-set(VERSION_MINOR "12")
+set(VERSION_MINOR "14")
 set(PROJECT_AUTHOR "Cpasjuste")
 set(TITLE_ID "PPLAY0001")
 
