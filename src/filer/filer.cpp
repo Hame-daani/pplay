@@ -150,9 +150,9 @@ bool Filer::onInput(c2d::Input::Player *players) {
         }
         setSelection(item_index);
         scrapView->unload();
-    } else if (keys & Input::Key::Left) {
-        main->getMenuMain()->setVisibility(Visibility::Visible, true);
     } else if (keys & Input::Key::Right) {
+        main->getMenuMain()->setVisibility(Visibility::Visible, true);
+    } else if (keys & Input::Key::Left) {
         if (!main->getPlayer()->getMpv()->isStopped()
             && !main->getPlayer()->isFullscreen()) {
             main->getPlayer()->setFullscreen(true);

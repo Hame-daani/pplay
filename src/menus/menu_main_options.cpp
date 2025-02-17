@@ -17,13 +17,13 @@ void MenuMainOptions::onOptionSelection(MenuItem *item) {
 }
 
 bool MenuMainOptions::onInput(c2d::Input::Player *players) {
-    if (players[0].keys & Input::Right || players[0].keys & Input::Key::Fire2) {
+    if (players[0].keys & Input::Left || players[0].keys & Input::Key::Fire2) {
         setVisibility(Visibility::Hidden, true);
         main->getMenuMain()->setVisibility(Visibility::Visible, true);
         return true;
     }
 
-    if (players[0].keys & Input::Left) {
+    if (players[0].keys & Input::Right) {
         onOptionSelection(getSelection());
         return true;
     }

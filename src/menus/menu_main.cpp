@@ -66,12 +66,12 @@ void MenuMain::onOptionSelection(MenuItem *item) {
 }
 
 bool MenuMain::onInput(c2d::Input::Player *players) {
-    if (players[0].keys & Input::Right || players[0].keys & Input::Key::Fire2) {
+    if (players[0].keys & Input::Left || players[0].keys & Input::Key::Fire2) {
         setVisibility(Visibility::Hidden, true);
         return true;
     }
 
-    if (players[0].keys & Input::Left) {
+    if (players[0].keys & Input::Right) {
         MenuItem *item = getSelection();
         if (item->name == "Options") {
             onOptionSelection(item);
