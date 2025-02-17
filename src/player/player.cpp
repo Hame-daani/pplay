@@ -259,6 +259,10 @@ bool Player::onInput(c2d::Input::Player *players) {
         setFullscreen(false);
     } else if (keys & c2d::Input::Key::Left) {
         main->getMenuVideo()->setVisibility(Visibility::Visible, true);
+    } else if (keys & c2d::Input::Key::Fire3) {
+	main->getPlayer()->resume();
+    } else if (keys & c2d::Input::Key::Fire4) {
+	main->getPlayer()->pause();
     }
 
     return true;
