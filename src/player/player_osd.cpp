@@ -192,13 +192,13 @@ bool PlayerOSD::onInput(c2d::Input::Player *players) {
                 main->getPlayer()->resume();
             }
         } else if (index == (int) ButtonID::SeekForward1) {
-            main->getPlayer()->getMpv()->seek(10.0);
-        } else if (index == (int) ButtonID::SeekForward10) {
             main->getPlayer()->getMpv()->seek(60.0);
+        } else if (index == (int) ButtonID::SeekForward10) {
+            main->getPlayer()->getMpv()->seek(300.0);
         } else if (index == (int) ButtonID::SeekBackward1) {
-            main->getPlayer()->getMpv()->seek(-10.0);
-        } else if (index == (int) ButtonID::SeekBackward10) {
             main->getPlayer()->getMpv()->seek(-60.0);
+        } else if (index == (int) ButtonID::SeekBackward10) {
+            main->getPlayer()->getMpv()->seek(-300.0);
         } else if (index == (int) ButtonID::Stop) {
             setVisibility(Visibility::Hidden);
             main->getStatus()->show("Info...", "Stopping playback...");
