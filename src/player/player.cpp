@@ -243,6 +243,14 @@ bool Player::onInput(c2d::Input::Player *players) {
     }
 #endif
 
+    } else if (keys & c2d::Input::Key::Fire4) {
+	main->getPlayer()->resume();
+	main->getStatus()->show("Info...", "Resuming playback...");
+    } else if (keys & c2d::Input::Key::Fire3) {
+	main->getPlayer()->pause();
+	main->getStatus()->show("Info...", "Pausing playback...");
+    }
+
     if (osd->isVisible()) {
         return C2DObject::onInput(players);
     }
@@ -259,13 +267,6 @@ bool Player::onInput(c2d::Input::Player *players) {
         setFullscreen(false);
     } else if (keys & c2d::Input::Key::Left) {
         main->getMenuVideo()->setVisibility(Visibility::Visible, true);
-    } else if (keys & c2d::Input::Key::Fire4) {
-	main->getPlayer()->resume();
-	main->getStatus()->show("Info...", "Resuming playback...");
-    } else if (keys & c2d::Input::Key::Fire3) {
-	main->getPlayer()->pause();
-	main->getStatus()->show("Info...", "Pausing playback...");
-    }
 
     return true;
 }
