@@ -268,9 +268,6 @@ bool Player::onInput(c2d::Input::Player *players) {
     } else if (keys & c2d::Input::Key::Left) {
         main->getMenuVideo()->setVisibility(Visibility::Visible, true);
     }
-    else if (keys) {
-        main->getStatus()->show("Uknown key...", std::to_string(keys));
-    }
 
     return true;
 }
