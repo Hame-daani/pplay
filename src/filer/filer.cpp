@@ -167,8 +167,6 @@ bool Filer::onInput(c2d::Input::Player *players) {
     } else if (keys & Input::Key::Fire2) {
         scrapView->unload();
         exit();
-    } else if (keys & Input::Key::Fire3) {
-        main->getScrapper()->scrap(path);
     }
 
     return true;
